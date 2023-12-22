@@ -11,7 +11,13 @@ return require('packer').startup(function(use)
 		-- or                            , branch = '0.1.x',
 		requires = { {'nvim-lua/plenary.nvim'} }
 	}
-
+	use({
+		'rose-pine/neovim',
+		as = 'rose-pine',
+		config = function()
+			vim.cmd('colorscheme rose-pine')
+		end
+	})
 	use( 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
 
 	use( 'nvim-treesitter/playground')
@@ -44,6 +50,10 @@ return require('packer').startup(function(use)
 			{'rafamadriz/friendly-snippets'},
 		}
 	}
+
+	-- google docs
+	-- use {'aadv1k/gdoc.vim', run = './install.py'}
+
 	use 'morhetz/gruvbox'
 	use 'arcticicestudio/nord-vim'
 	use 'chriskempson/tomorrow-theme'
