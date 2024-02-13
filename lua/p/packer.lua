@@ -19,13 +19,9 @@ return require('packer').startup(function(use)
 		end
 	})
 	use( 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
-
 	use( 'nvim-treesitter/playground')
-
 	use( 'ThePrimeagen/harpoon' )
-
 	use("mbbill/undotree")
-
 	use("tpope/vim-fugitive")
 
 	use {
@@ -53,7 +49,6 @@ return require('packer').startup(function(use)
 
 	-- google docs
 	-- use {'aadv1k/gdoc.vim', run = './install.py'}
-
 	use 'morhetz/gruvbox'
 	use 'arcticicestudio/nord-vim'
 	use 'chriskempson/tomorrow-theme'
