@@ -1,6 +1,5 @@
-return {}
---return {
---	"nvim-treesitter/nvim-treesitter", 
+return {
+	"nvim-treesitter/nvim-treesitter", 
 --	build = ":TSUpdate",
 --	config = function()
 --		require("nvim-treesitter.configs").setup ({
@@ -40,6 +39,6 @@ return {}
 --
 --        vim.treesitter.language.register("templ", "templ")
 --	end 
---}
+}
 --
 --
