@@ -3,11 +3,10 @@ return {
 
 
 	config = function()
-		
 		-- Open Git fugitive Gf 
 		vim.keymap.set("n", "<leader>Go", ":Git<CR>")
 		-- stage current file Gsc
-		vim.keymap.set("n", "<leader>Gsc", ":Gwrite<CR>")	
+		vim.keymap.set("n", "<leader>Gsc", ":Gwrite<CR>")
 		-- Git pull
 		vim.keymap.set("n", "<leader>Gf", ":Git pull<CR>")
 		-- run git command rGc 

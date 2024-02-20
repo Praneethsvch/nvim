@@ -1,6 +1,5 @@
 return {
 	"neovim/nvim-lspconfig",
-	{'VonHeikemen/lsp-zero.nvim', branch = 'v3.x'},
 	dependencies = {
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
@@ -15,28 +14,93 @@ return {
 	},
 
 	config = function()
-		local lsp_zero = require('lsp-zero')
-	
-		lsp_zero.preset("recommended")
+		require('lspconfig')
+		local cmp = require('cmp')
+		local cmp_lsp = require('cmp_nvim_lsp')
+		local capabilities = vim.tbl_deep_extend(
+		"force",
+		{},
+		vim.lsp.protocol.make_client_capabilities(),
+		cmp_lsp.default_capabilities())
 
-		lsp_zero.on_attach(function(client, bufnr)
-			-- see :help lsp-zero-keybindings
-			-- to learn the available actions
-			lsp_zero.default_keymaps({buffer = bufnr})
-		end)
-
-		-- to learn how to use mason.nvim with lsp-zero
-		-- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guide/integrate-with-mason-nvim.md
-		require('mason').setup({})
-		require('mason-lspconfig').setup({
+		require("fidget").setup({})
+		require("mason").setup()
+		require("mason-lspconfig").setup({
 			ensure_installed = {
-				'clangd',
-				'rust_analyzer'
+				"asm_lsp",
+				"arduino_language_server",
+				"bashls",
+				"clangd",
+				"lua_ls",
+				"rust_analyzer",
+				"tsserver",
+				"marksman",
+				"ltex",
+				"pyre",
 			},
 			handlers = {
-				lsp_zero.default_setup,
-			},
+				function(server_name) -- default handler (optional)
+					require("lspconfig")[server_name].setup {
+						capabilities = capabilities
+					}
+				end,
+				["lua_ls"] = function()
+					local lspconfig = require("lspconfig")
+					lspconfig.lua_ls.setup {
+						capabilities = capabilities,
+						settings = {
+							Lua = {
+								diagnostics = {
+									globals = { "vim", "it", "describe", "before_each", "after_each" },
+								}
+							}
+						}
+					}
+				end,
+			}
 		})
 
+		local cmp_select = { behavior = cmp.SelectBehavior.Select }
+
+		cmp.setup({
+			snippet = {
+				expand = function(args)
+					require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+				end,
+			},
+			mapping = cmp.mapping.preset.insert({
+				['<C-u>'] = cmp.mapping.select_prev_item(cmp_select),
+				['<C-d>'] = cmp.mapping.select_next_item(cmp_select),
+				['<CR>'] = cmp.mapping.confirm({ select = true }),
+				["<C-Space>"] = cmp.mapping.complete(),
+			}),
+			sources = cmp.config.sources({
+				{ name = 'nvim_lsp' },
+				{ name = 'luasnip' }, -- For luasnip users.
+			}, {
+				{ name = 'buffer' },
+			})
+		})
+
+		function ToggleDiagnostics()
+			local diagnostics_visible = vim.diagnostic.config().underline
+			vim.diagnostic.config({
+				underline = not diagnostics_visible,
+				virtual_text = not diagnostics_visible,
+				signs = not diagnostics_visible,
+				update_in_insert = not diagnostics_visible,
+				float = {
+					focusable = false,
+					style = "minimal",
+					border = "rounded",
+					source = "always",
+					header = "",
+					prefix = "",
+				},
+			})
+		end
+
+		vim.api.nvim_set_keymap('n', '<leader>tt', '<cmd>lua ToggleDiagnostics()<CR>',
+		{ noremap = true, silent = true })
 	end
 }
