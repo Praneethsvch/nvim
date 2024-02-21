@@ -23,6 +23,16 @@ return {
 		vim.lsp.protocol.make_client_capabilities(),
 		cmp_lsp.default_capabilities())
 
+		local unpack = unpack or table.unpack
+		local function find_root_dir()
+			local root_files = {
+				"zephyr/CMakeLists.txt", -- Zephyr RTOS root indicator
+				"CMakeLists.txt", -- Generic CMake project root indicator
+				".git", -- Git repository root indicator
+			}
+			return require("lspconfig.util").root_pattern(unpack(root_files))
+		end
+
 		require("fidget").setup({})
 		require("mason").setup()
 		require("mason-lspconfig").setup({
@@ -44,6 +54,15 @@ return {
 						capabilities = capabilities
 					}
 				end,
+
+				["clangd"] = function()
+					local lspconfig = require("lspconfig")
+					lspconfig.clangd.setup {
+						capabilities = capabilities,
+						root_dir = find_root_dir(),
+					}
+				end,
+
 				["lua_ls"] = function()
 					local lspconfig = require("lspconfig")
 					lspconfig.lua_ls.setup {
