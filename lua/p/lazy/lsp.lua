@@ -1,5 +1,6 @@
 return {
 	"neovim/nvim-lspconfig",
+	"rhysd/vim-clang-format",
 	dependencies = {
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
