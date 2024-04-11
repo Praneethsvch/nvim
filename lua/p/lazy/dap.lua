@@ -2,6 +2,7 @@ return {
 	"mfussenegger/nvim-dap",
 	-- NOTE: And you can specify dependencies as well
 	dependencies = {
+		"nvim-neotest/nvim-nio",
 		-- Creates a beautiful debugger UI
 		'rcarriga/nvim-dap-ui',
 
@@ -54,8 +55,8 @@ return {
 		dap.configurations.c = {
 			{ -- for jlink and nRF9160 
 				name = "Launch JLinkGDBServer",
-				type = "jlink"}, 
-			
+				type = "jlink"},
+
 			{ -- for stlink and STM32E5
 				name = "Launch OpenOCD for STM32E5",
 				type = "stlink"},
@@ -104,6 +105,6 @@ return {
 		dap.listeners.before.event_terminated['dapui_config'] = dapui.close
 		dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
-	end 
-}	
+	end
+}
 
