@@ -231,6 +231,9 @@ return {
 			vim.api.nvim_set_keymap('n', '<leader>tt', '<cmd>lua ToggleDiagnostics()<CR>',
 				{ noremap = true, silent = true })
 		end,
+
+		vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic message' })
+
 	},
 
 	{ -- Autocompletion

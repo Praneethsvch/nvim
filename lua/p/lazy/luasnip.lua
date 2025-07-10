@@ -42,15 +42,15 @@ return {
 			})
 		})
 
-		-- Keybindings for jumping between snippet fields
-		vim.api.nvim_set_keymap("i", "<Tab>", "<cmd>lua require'luasnip'.jump(1)<CR>",
-			{ noremap = true, silent = true })
-		vim.api.nvim_set_keymap("s", "<Tab>", "<cmd>lua require'luasnip'.jump(1)<CR>",
-			{ noremap = true, silent = true })
-		vim.api.nvim_set_keymap("i", "<S-Tab>", "<cmd>lua require'luasnip'.jump(-1)<CR>",
-			{ noremap = true, silent = true })
-		vim.api.nvim_set_keymap("s", "<S-Tab>", "<cmd>lua require'luasnip'.jump(-1)<CR>",
-			{ noremap = true, silent = true })
+		---- Keybindings for jumping between snippet fields
+		--vim.api.nvim_set_keymap("i", "<Tab>", "<cmd>lua require'luasnip'.jump(1)<CR>",
+		--	{ noremap = true, silent = true })
+		--vim.api.nvim_set_keymap("s", "<Tab>", "<cmd>lua require'luasnip'.jump(1)<CR>",
+		--	{ noremap = true, silent = true })
+		--vim.api.nvim_set_keymap("i", "<S-Tab>", "<cmd>lua require'luasnip'.jump(-1)<CR>",
+		--	{ noremap = true, silent = true })
+		--vim.api.nvim_set_keymap("s", "<S-Tab>", "<cmd>lua require'luasnip'.jump(-1)<CR>",
+		--	{ noremap = true, silent = true })
 	end
 
 }
