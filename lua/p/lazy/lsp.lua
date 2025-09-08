@@ -151,7 +151,7 @@ return {
 								'<cmd>lua vim.lsp.buf.format()<CR>',
 								{ noremap = true, silent = true });
 						end
-					end
+				end
 				},
 				cmake = {},
 				marksman = {},

@@ -30,40 +30,71 @@ return {
 			-- online, please don't ask me how to install them :)
 			ensure_installed = {
 				-- Update this to ensure that you have the debuggers for the langs you want
-				'delve',
 			},
 		}
-
+		--local arm_gdb_path vim.fn.exepath('arm-none-eabi-gdb')
+		dap.adapters.arm_gdb = {
+			type = "executable",
+			command = 'arm-none-eabi-gdb', --arm_gdb_path,
+			args = { "--interpreter=cortex-debug" }--, "--eval-command", "set print pretty on" }
+		}
 		-- Nordic nRF9160 adapter with JLinkDSBServerCL
 		dap.adapters.jlink = {
 			type = "executable",
 			command = "JLinkGDBServerCL",
-			args = {"-device", "nrf9160", 
-				"-if", "swd", 
-				"-port", "2331"}
+			args = { "-device", "nrf9160",
+				"-if", "swd",
+				"-port", "2331" }
 		}
 
 		-- STM32 adapter with OpenOCD
 		dap.adapters.stlink = {
 			type = "executable",
 			command = "openocd",
-			args = {"-f", "", -- path to interface config file  
-				"-f", ""} -- path to target config file 
+			args = { "-f", "", -- path to interface config file
+				"-f", "" } -- path to target config file
 		}
 
-		-- DAP C configs 
+		-- DAP C configs
 		dap.configurations.c = {
-			{ -- for jlink and nRF9160 
+			{ -- for jlink and nRF9160
 				name = "Launch JLinkGDBServer",
-				type = "jlink"},
+				type = "jlink",
+				request = "launch",
+				--program = function()
+				--	return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+				--end,
+				--cwd = "${workspaceFolder}",
+				--stopAtBeginningOfMainSubprogram = false,
+			},
+
+			{
+				name = "Attach to JLinkGDBServer",
+				type = "arm_gdb",
+				request = 'attach',
+				target = 'localhost:2331',
+				program = 'build/zephyr/zephyr.elf',
+				cwd = '${workspaceFolder}'
+			},
+			{
+				name = "Launch arm-gdb",
+				type = "arm_gdb",
+				request = 'launch',
+				program = 'build/zephyr/zephyr.elf',
+				cwd = '${workspaceFolder}',
+				stopAtBeginningOfMainSubprogram = false,
+			},
+
 
 			{ -- for stlink and STM32E5
 				name = "Launch OpenOCD for STM32E5",
-				type = "stlink"},
+				type = "stlink"
+			},
 
 			{ -- for stlink and STM32U5
 				name = "Launch OpenOCD for STM32U5",
-				type = "stlink"}
+				type = "stlink"
+			}
 		}
 
 		-- Basic debugging keymaps, feel free to change to your liking!
@@ -104,6 +135,5 @@ return {
 		dap.listeners.after.event_initialized['dapui_config'] = dapui.open
 		dap.listeners.before.event_terminated['dapui_config'] = dapui.close
 		dap.listeners.before.event_exited['dapui_config'] = dapui.close
-
 	end
 }

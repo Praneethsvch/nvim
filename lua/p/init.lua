@@ -9,3 +9,5 @@ vim.cmd('highlight Normal guibg=NONE ctermbg=NONE')
 vim.cmd('highlight Comment guifg=gray ctermfg=darkgray')
 vim.cmd('highlight Cursor guibg=NONE ctermbg=NONE guifg=NONE ctermfg=NONE')
 
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic message' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic message' })
