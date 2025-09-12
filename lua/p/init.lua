@@ -11,3 +11,5 @@ vim.cmd('highlight Cursor guibg=NONE ctermbg=NONE guifg=NONE ctermfg=NONE')
 
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic message' })
+
+vim.api.nvim_set_keymap('v', '<leader>pc', [[:'<,'>w !~/ollama-comments-gen.sh<CR>]], { noremap = true, silent = true })
