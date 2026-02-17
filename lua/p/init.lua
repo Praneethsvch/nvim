@@ -18,4 +18,9 @@ vim.cmd([[
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic message' })
 
+vim.filetype.add({
+	extension = {
+		overlay = "dts",
+	},
+})
 -- vim.api.nvim_set_keymap('v', '<leader>pc', [[:'<,'>w !~/ollama-comments-gen.sh<CR>]], { noremap = true, silent = true })
